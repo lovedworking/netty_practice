@@ -1,6 +1,5 @@
 package cn.tukk.netty.thirdexample;
 
-import cn.tukk.netty.secondexample.MyServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
