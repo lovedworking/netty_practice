@@ -29,7 +29,7 @@ public class Reactor implements  Runnable{
     final Selector selector;
     final ServerSocketChannel serverSocket;
 
-    // Reactor SetUP
+    // Reactor SetUP   selector
     Reactor(int port) throws IOException{
         selector = Selector.open();
         serverSocket=ServerSocketChannel.open();
@@ -99,6 +99,7 @@ final class Handler implements Runnable{
         sel.wakeup();
     }
 
+    // 第五 请求处理
     @Override
     public void run() {
         try {
