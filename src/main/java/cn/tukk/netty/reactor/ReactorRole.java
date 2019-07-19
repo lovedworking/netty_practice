@@ -10,11 +10,12 @@ package cn.tukk.netty.reactor;
  * @author: tkk fendoukaoziji
  * @create: 2019-07-19 11:33
  **/
-public class ReactorRole {
+public interface ReactorRole {
 
     /*****
      *
      *
+     Reactor模式
      1、Handler  句柄或描述符
              本质上是一种资源，由操作系统提供的，该资源表示一个个的事件，比如文件描述符，或是针对网络编程中的
              Socket 描述符。事件可以来自内部，也可以来自外部；外部事件如客户端的请求，客户端发送过来的数据；
@@ -37,7 +38,18 @@ public class ReactorRole {
             注册、删除等设施。它本身是事件处理器的核心所在，Initiation Dispatcher 会通过同步事件分离器来等待事件的发生，
             一旦事件发生，Initiation Dispatcher首先会分离出每一个事件，最后调用相关回调方法来处理这些事件
 
-
+     Reactor模式流程
+     1、当应用向Initiation Dispatcher 注册具体的事件处理器时，应用会标识出该事件处理器希望Initiation Dispatcher 在某个事件
+     发生时向其通知该事件，该事件与Handle关联
+     2、Initiation Dispathcer 会要求每个事件处理器向其传递内部的Handle,该Handle向操作系统标识了事件处理器。
+     3、当所有的事件处理器注册完毕后，应用会调用handle_events方法来启动Initiation Dispathcer的事件循环。这时，Initiation
+     Dispathcer 会将每个注册事件管理器的Handle 合并起来，并使用同步事件分离器等待这些事件的发生，比如说TCP协议层会使用Select
+     同步事件分离器来等待客户端发送数据到达连接的socket handle上
+     4、当与某个事件源对应的Handle变为ready状态时（比如说，socket变为等待读转态时），同步事件分离器就会通知Initiation Dispathcer
+     5、Initiation Dispatcher 会触发事件处理器的回调方法，从而响应这个处于ready状态的Handle,当事件发生时，Initiation Dispatcher
+     会将事件源激活的Handler作为[key]来寻找并分发恰当的事件处理器回调方法
+     6、Initiation Dispatcher 会回调事件处理器的handler_events 回调方法来执行特定于应用的功能（开发者自己编写的功能），从而响应这个
+     事件，所发生的事件类型可以作为该方法参数并被该方法内部使用来执行额外的特定于服务的分离与分发。
 
 
 
